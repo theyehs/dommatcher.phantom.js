@@ -1,0 +1,355 @@
+<html>
+<head>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+	<script src='scrollable.js'></script>
+<style>
+.table {
+	width: 600px;
+	height: 400px;
+	overflow: auto;
+	overflow-y: hidden;
+	-webkit-user-select: none; 
+}
+.table .tr {
+	width: 600px;
+	height: 20px;
+	margin: 0px;
+	background-color: #FAEBBE;
+	border-bottom: 2px solid #fff;
+	-webkit-user-select: none; 
+}
+
+
+.table .tr .td {
+	width: 180px;
+	margin: 5px;
+	height: 30px;
+	display: inline-block;
+	xbackground-color: #888;
+	color: #000;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	-webkit-user-select: none;
+}
+.scrollbarCt {
+	position: absolute;
+	width: 15px;
+	height: 400px;
+	left: 610px;
+	top: 8px;
+	background-color: #aaa;
+}
+.handle {
+	position: absolute;
+	height: 50px;
+	width: 19px;
+	opacity: .7;
+	cursor: pointer;
+	background-color: #777;
+}
+</style>
+
+<style type='text/less'>
+body {
+	font-family: Arial;
+}
+
+#tooltip {
+	border-radius: 4px;
+	width: 150px;
+	min-height: 20px;
+	box-shadow: 0 0 10px #ccc inset;
+	position: absolute;
+	font-family: Verdana;
+	color: #999;
+	font-size: 12px;
+	padding: 6px 10px;
+	background-color: #fff;
+	display: none;
+}
+
+questioncontainer {
+	position: relative;
+	h2 {
+		color: #444;
+		text-shadow: 1px 1px #eee;
+	}
+}
+
+eventlist {
+	position: absolute;
+	width: 160px;
+	background-image: url(http://www.pearl.com/_cassette/file/Content/Images/Themes/Default/bg-body_bacb8f2c9563cee07bfe611b80fe636072ef5028.png);
+
+	height: 400px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	left: 760px;
+	//box-shadow: 0 0 4px #ccc inset;
+
+	event {
+		position: relative;
+		display: block;
+		width: 160px;
+		min-height: 60px;
+//		margin: 5px 3px;
+		padding-left: 12px;
+		padding-top: 5px;
+		font-family: Arial;
+		font-size: 11.5px;
+		color: lighten(rgb(54, 54, 54), 10%);
+		border-bottom: 1px solid #ccc;
+		
+		&:hover {
+			opacity: 0.6;
+		
+		}
+		
+		strong {
+			position: relative;
+			top: -5px;
+			cursor: pointer;
+		}
+		.p {
+			position: relative;
+			top: -5px;
+			width: 140px;
+			color: lighten(rgb(70, 186, 207), 10%);
+		}
+
+		bar {
+			display: block;
+			width: 5px;
+			height: 63px;
+			position: absolute;
+			top: 1px;
+			left: 0px;
+			background: rgb(216, 60, 85);			
+		}
+	}
+}
+
+.add {
+	transition: all 0.4s;
+	&.state1 {
+		background-color: rgb(216, 60, 85);
+	}
+	&.state2 {
+		background-color: rgb(4, 170, 182);
+	}
+	&.state3 {
+		background-color: rgb(113, 181, 47);
+	}
+}
+
+.notify {
+	position: absolute;
+	width: 9px;
+	transition: all 0.4s;
+	box-shadow: 0 0 4px #aaa inset;
+	
+	label {
+		position: absolute;
+		left: 18px;
+		top: -2px;
+		color: #222;
+		font-size: 10.5px;
+	}
+	
+	&.state1 {
+		background-color: rgb(216, 60, 85);
+	}
+	&.state2 {
+		background-color: rgb(4, 170, 182);
+	}
+	&.state3 {
+		background-color: rgb(113, 181, 47);
+	}
+}
+
+scrollbar {
+	position: absolute;
+	display: block;
+	height: 400px;
+	width: 9px;
+	left: 700px;
+	top: 0px;
+	box-shadow: 0px 0px 20px #bbb inset;
+	background-color: #fefefe;
+	
+	handle {
+		width: 9px;
+		xxposition: absolute;
+		display: block;
+		height: 12px;
+		z-index: 10;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		background-color: white;
+		opacity: 0.8;
+		box-shadow: 0px 2px 4px #ccc;
+		left: -1px;
+		top: 0px;
+		cursor: pointer;
+	}
+}
+
+questionlist {
+	min-height: 400px;
+	height: 400px;
+	position: relative;
+	display: block;
+	width: 750px;
+	overflow: hidden;
+}
+
+question.selected {
+	.icon {
+		display: block;
+	}
+}
+
+question {
+	background-color: rgb(247, 247, 247);
+	min-height: 50px;
+	width: 700px;
+	display: block;
+	position: relative;
+	
+	border-top: 1px solid #e0e0e0;
+	
+	.top {
+		position: absolute;
+		top: 5px;
+		left: 5px;
+	}
+	.bottom {
+		position: absolute;
+		bottom: 7px;
+		left: 5px;
+	}
+	.topright {
+		position: absolute;
+		right: 10px;
+		top: 4px;
+		label {
+			background-color: rgb(89, 35, 68);
+			color: white;
+			padding: 2px 10px;
+			font-size: 8.5px;
+		}
+	}
+	.right {
+		position: absolute;
+		bottom: 6px;
+		right: 20px;
+	}
+	.icon {
+		display: none;
+		width: 135px;
+		height: 22px;
+		position: absolute;
+		right: 70px;
+		top: 5px;
+		background-image: url(./question-icon.png);
+	}
+	
+	category {
+		color: rgb(54, 54, 54);
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	text {
+		color: lighten(rgb(70, 186, 207), 10%);
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+	
+	customer {
+		color: #b4b4b4;
+		font-size: 12.5px;
+		name {
+			color: lighten(rgb(70, 186, 207), 10%);
+			font-weight: 600;
+			font-size: 11.5px;
+			cursor: pointer;
+		}
+	}
+	
+	review {
+		display: inline-block;
+		color: lighten(rgb(100, 100, 100), 30%);
+		margin-left: 10px;
+		font-weight: 400;
+		font-size: 11.5px;
+		cursor: pointer;
+
+	}
+	
+	time {
+		font-size: 11px;
+		color: #b4b4b4;
+		display: block;
+	}
+	
+	price {
+		font-size: 19px;
+		font-weight: 500;
+		text-shadow: 1px 1px #eee;
+		color: rgb(14, 165, 39);
+		margin-left: 5px;
+		display: block;
+	}
+}
+</style>
+<script src='./less.js'></script>
+</head>
+<body>
+
+<questioncontainer>
+	<h2>Questions sorted by the most recent</h2>
+	
+	<div style="position: relative;">
+		<scrollbar>
+			<handle draggable='true'></handle>
+		</scrollbar>
+		
+		<eventlist>
+		<event type='add' id='newevent' style="display: none;">
+			<bar></bar>
+			<strong>New Mechanic Question</strong>
+			<div class='p'>Lorem ipsum dolor sit consectetur adipisicing elit, sed</div>
+		</event>
+		</eventlist>
+		
+		<questionlist>
+			<question>
+				<div class='top'>
+					<category>Mechanic</category>
+					<text>Lorem ipsum dolor sit consectetur adipisicing elit, sed</text>
+				</div>
+				<div class='bottom'>
+					<customer>By <name>customer x</name></customer>
+					<review> |&nbsp;&nbsp;&nbsp;&nbsp; Average customer rating 5 </review>
+				</div>
+				<div class='topright'>
+<!--					<label>RECOMMENDED FOR YOU</label> -->
+				</div>
+				<div class='icon'>
+				</div>
+				<div class='right'>
+					<time>9:24 AM</time>
+					<price>$18</price>
+				</div>
+			</question>
+		</questionlist>
+	</div>
+</questioncontainer>
+<div id='tooltip'></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html manifest="./cache.manifest">
+<head>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js'></script>
+
+	<script src='./input.js'></script>
+	<script src='./step.js'></script>
+	<script src='./hugeform.js'></script>
+	<script src='./page.js'></script>
+	<style>
+.container {
+	width: 600px;
+	margin: auto;
+}
+.container section {
+	border: 2px solid #000;
+}
+.container section .header {
+	font-weight: bolder;
+}
+
+.stepContainer .visit-state {
+	display: none;
+}
+
+body {
+	font-size: 12px;
+	font-family: Verdana;
+	color: #666;
+}
+
+.visited.visit-state {
+	width: 1200px;
+	background-color: #eee;
+	margin-top: 8px;
+}
+.stepSummary {
+}
+.stepSummary .summary-item:after {
+	clear: both;
+	content: '';
+	display: block;
+}
+.stepSummary .summary-item label {
+	float: left;
+	display: block;
+	width: 300px;
+}
+.stepSummary .summary-item .text {
+	float: left;
+	display: block;
+	width: 700px;
+}
+	</style>
+</head>
+<body>
+	<div class='container'></div>
+
+	<script type='text/template' id='sectionTemplate'>
+		<div class='header'></div>
+		<div class='content'></div>
+	</script>
+	
+	<script type='text/template' id='stepTemplate'>
+		<div class='activated visit-state'>
+			<div class='header'></div>
+			<div class='description'></div>
+			<div class='inputContainers'></div>
+			<div class='actionContainer'></div>
+		</div>
+		<div class='deactivated visit-state'>
+			
+		</div>
+		<div class='visited visit-state'>
+			<div class='stepSummary'></div>
+			<div class='edit'><a href=''>Edit</a></div>
+		</div>
+	</script>
+	
+	<script type='text/template' id='inputTemplate'>
+		<div class='text'></div>
+		<div class='input'></div>
+	</script>
+</body>
+</html>
