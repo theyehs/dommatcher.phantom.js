@@ -1,9 +1,21 @@
 
+// RUN "phantomjs page_serializer.js www.domain.com/page.html > domtree-archive.js"
+
+var system = require('system');
+
+var url = system.args[1]; // 'https://www.pearl.com';
+if (!url) {
+	console.log('RUN "phantomjs page_serializer.js http://www.domain.com/page.html > domtree-archive.js"');
+	phantom.exit();
+}
 var page = require('webpage').create();
-//var url = 'http://qa2.justanswer.local/';
-var url = 'https://www.pearl.com/';
+
 page.open(url, function (status) {
-	if (status != 'success') phantom.exit();
+	if (status != 'success') {
+		console.log('Error: cannot open page: ' + url + ' (' + status + ')');
+		phantom.exit();
+	}
+
 //	page.injectJs('http://codeorigin.jquery.com/jquery-1.10.2.min.js')
 
 	page.evaluate(function() {
@@ -12,6 +24,7 @@ page.open(url, function (status) {
 			'margin-top': '15px'
 		});
 	});
+
 
 	var output = page.evaluate(function() {
 		var ret = {};
@@ -31,7 +44,6 @@ page.open(url, function (status) {
 			 if (cls)
 			 	nodeGuid += '.' + cls;
 			 nodeGuid += ':' + nodeIndexOf; 
-//			 if (counter++ > 100) continue;
 	
 			var s = window.getComputedStyle(el, null)
 			var styles = {};
