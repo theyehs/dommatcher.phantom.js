@@ -44,11 +44,11 @@ setTimeout(function() {
 	
 		page.evaluate(function() {
 			$(".category-selector-block").css({
-				backgroundColor: 'red',
-				//'margin-top': '15px'
+				'margin-top': '3px'
 			});
+			$(".container.full-width").css("font-family", 'Arial');
 		});
-		
+
 		setTimeout(function() {
 			var outbuffer = page.evaluate(function(diffs) {
 				var nodeList = {};
@@ -73,12 +73,12 @@ setTimeout(function() {
 						$(matchedEl).attr('f-nodeid', nodeId);
 					}
 				}
-	
+
 				// traverse the DOM tree to filter out the false positives
-				var hLayoutStyles = ['height', 'border-width', 'border-style', 'margin-top', 'margin-bottom', 'padding-top', 'padding-bottom', 'position', 'overflow'];
-				var wLayoutStyles = ['width', 'border-width', 'border-style', 'margin-left', 'margin-right', 'padding-left', 'padding-right', 'position', 'overflow'];			
-				
-				// this is an incomplete list for prototyping only
+				var hLayoutStyles = ['height', 'border-width', 'border-style', 'margin-top', 'margin-bottom', 'padding-top', 'padding-bottom', 'position', 'overflow', 'font-size'];
+				var wLayoutStyles = ['width', 'border-width', 'border-style', 'margin-left', 'margin-right', 'padding-left', 'padding-right', 'position', 'overflow', 'font-size'];	
+
+				// this is an incomplete list for prototyping 
 				var nonInheritableStyles = ['height', 'border-width', 'border-style', 'margin-top', 'margin-left', 'margin-bottom', 'margin-right', 'padding-top', 'padding-left', 'padding-bottom', 'padding-right', 'position', 'overflow', 'background-image'];
 	
 				var outbuffer = [];

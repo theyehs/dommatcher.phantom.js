@@ -18,14 +18,14 @@ page.open(url, function (status) {
 
 //	page.injectJs('http://codeorigin.jquery.com/jquery-1.10.2.min.js')
 	setTimeout(function() {
+/*
 		page.evaluate(function() {
 			$(".category-selector-block").css({
-				backgroundColor: 'red',
-				'margin-top': '15px'
+				'margin-top': '3px'
 			});
-			$(".container.full-width").css("font-family", 'arial');
+			$(".container.full-width").css("font-family", 'Arial');
 		});
-	
+*/
 	
 		var output = page.evaluate(function() {
 			var ret = {};
@@ -35,7 +35,7 @@ page.open(url, function (status) {
 				var el = nodes[i];
 				 var id, cls, nodeIndexOf;
 				 id = el.getAttribute('id') || '';
-				 cls = (el.getAttribute('class') || '').replace(/\s+/, '.').substring(0, 100);s
+				 cls = (el.getAttribute('class') || '').replace(/\s+/, '.').substring(0, 100);
 				 if (!id && !cls) continue;
 				 nodeIndexOf = Array.prototype.indexOf.call(el.parentNode.childNodes, el);
 				 
