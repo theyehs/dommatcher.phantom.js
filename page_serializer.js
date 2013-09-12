@@ -1,5 +1,6 @@
 
 // RUN "phantomjs page_serializer.js www.domain.com/page.html > domtree-archive.js"
+/// http://screencast.com/t/W9zUigW6
 
 var system = require('system');
 
