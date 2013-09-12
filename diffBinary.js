@@ -1,3 +1,4 @@
+// RUN "phantomjs diffBinary.js oldarchive.ext newarchive.ext screenshotFile.png');
 
 var fs = require('fs');
 var system = require('system');
